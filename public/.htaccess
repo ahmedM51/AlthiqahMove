@@ -1,0 +1,42 @@
+# ----------------------------------------------------------------------
+# إعدادات Apache / Hostinger لتشغيل تطبيقات React Single Page Application (SPA)
+# ملف .htaccess مخصص لاستضافة Hostinger لضمان عمل كافة الروابط بدون أخطاء 404
+# ----------------------------------------------------------------------
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # إعادة توجيه كافة الطلبات غير الموجودة فعلياً كملف أو مجلد إلى index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# منع تصفح المجلدات مباشرة
+Options -Indexes
+
+# تفعيل ضغط الملفات لتسريع التحميل وأداء أفضل في Google Ads و PageSpeed
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# تحسين التخزين المؤقت للملفات الثابتة (Caching)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# ترويسات الأمان الأساسية
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-XSS-Protection "1; mode=block"
+</IfModule>

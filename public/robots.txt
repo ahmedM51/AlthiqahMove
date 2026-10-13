@@ -1,0 +1,19 @@
+# robots.txt لشركة الثقة لنقل الأثاث بالرياض
+User-agent: *
+Allow: /
+
+# السماح الكامل لروبوتات فحص وفهرسة إعلانات Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+# مسار خريطة الموقع
+Sitemap: https://thiqahmovesa.vercel.app/sitemap.xml

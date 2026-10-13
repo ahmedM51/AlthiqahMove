@@ -1,0 +1,6 @@
+{
+  "name": "الونيت الذكي للنقل - خدمات نقل الأثاث بالرياض",
+  "description": "موقع احترافي متجاوب لشركة الونيت الذكي لنقل الأثاث والعفش في الرياض مع خدمات الفك والتركيب والتغليف وتهيئة حملات Google Ads.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
