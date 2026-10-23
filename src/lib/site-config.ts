@@ -106,7 +106,13 @@ export const SITE_CONFIG = {
   // معرفات التحليلات وحملات Google Ads
   analytics: {
     ga4Id: import.meta.env.VITE_GA4_ID || '',
-    googleAdsConversionId: import.meta.env.VITE_GOOGLE_ADS_CONVERSION_ID || '',
+    // معرّف وسم Google Ads الرسمي للحساب
+    googleAdsConversionId: import.meta.env.VITE_GOOGLE_ADS_CONVERSION_ID || 'AW-18493028026',
+    // تسميات التحويل (Conversion Labels) الخاصة بأزرار الاتصال والواتساب
+    conversionLabels: {
+      phone: 'vmacCMHa748dELrtlPJE',
+      whatsapp: 'gvWyCKef_KAdELrtlPJE',
+    },
   },
 
   // شارات الثقة المعروضة في الهيرو
@@ -340,12 +346,33 @@ export function trackEvent(eventName: string, params: Record<string, unknown> = 
   }
 }
 
+/**
+ * إرسال تحويل Google Ads صريح (send_to) للنقر على الاتصال أو الواتساب
+ * هذا ما يجعل حملات Google Ads تعمل وتحسّن الميزانية نحو الاتصالات والرسائل الفعلية
+ */
+export function reportGoogleAdsConversion(label: string) {
+  try {
+    if (!label) return;
+    const winGtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+    if (typeof winGtag === 'function') {
+      winGtag('event', 'conversion', {
+        send_to: `${SITE_CONFIG.analytics.googleAdsConversionId}/${label}`,
+        value: 1.0,
+        currency: 'EGP',
+      });
+    }
+  } catch {
+    // تتبع صامت
+  }
+}
+
 export function trackPhoneCallClick(sourceLocation = 'general') {
   trackEvent('contact_phone_click', {
     event_category: 'Lead',
     event_label: 'Call Click',
     source: sourceLocation,
   });
+  reportGoogleAdsConversion(SITE_CONFIG.analytics.conversionLabels.phone);
 }
 
 export function trackWhatsAppClick(sourceLocation = 'general') {
@@ -354,6 +381,7 @@ export function trackWhatsAppClick(sourceLocation = 'general') {
     event_label: 'WhatsApp Click',
     source: sourceLocation,
   });
+  reportGoogleAdsConversion(SITE_CONFIG.analytics.conversionLabels.whatsapp);
 }
 
 export function trackLeadFormSubmitted(serviceType: string) {
@@ -362,4 +390,5 @@ export function trackLeadFormSubmitted(serviceType: string) {
     event_label: 'Form Submission',
     service_type: serviceType,
   });
+  reportGoogleAdsConversion(SITE_CONFIG.analytics.conversionLabels.phone);
 }

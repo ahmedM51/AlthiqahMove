@@ -3,6 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google tag (gtag.js) - وسم Google Ads لقياس التحويلات (الاتصال والواتساب) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18493028026"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18493028026');
+    </script>
+    <!-- Event snippet for جهة اتصال conversion page (تحويل الاتصال الهاتفي) -->
+    <script>
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof(url) != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+            'send_to': 'AW-18493028026/vmacCMHa748dELrtlPJE',
+            'value': 1.0,
+            'currency': 'EGP',
+            'event_callback': callback
+        });
+        return false;
+      }
+    </script>
+    <!-- Event snippet for جهة اتصال (2) conversion page (تحويل الواتساب) -->
+    <script>
+      function gtag_report_whatsapp_conversion(url) {
+        var callback = function () {
+          if (typeof(url) != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+            'send_to': 'AW-18493028026/gvWyCKef_KAdELrtlPJE',
+            'value': 1.0,
+            'currency': 'EGP',
+            'event_callback': callback
+        });
+        return false;
+      }
+    </script>
+
     <title>ونيت نقل عفش بالرياض | اتصال مباشر وواتساب فوري</title>
     <meta name="description" content="ونيت نقل عفش بالرياض: وصول سريع خلال 20 دقيقة، نقل غرف نوم وأجهزة كهربائية وبضائع بأرخص الأسعار. اتصل أو راسل واتساب الآن." />
     <meta name="keywords" content="ونيت نقل عفش بالرياض, ونيت نقل اغراض بالرياض, دينا نقل عفش بالرياض, رقم ونيت نقل عفش بالرياض, نقل عفش داخل الرياض, افضل شركة نقل عفش بالرياض, ونيت نقل غرف نوم بالرياض, ونيت نقل عفش شمال الرياض, ونيت نقل عفش شرق الرياض" />
