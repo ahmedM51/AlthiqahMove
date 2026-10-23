@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { SITE_CONFIG, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
-import { ChevronLeft, Phone, MessageCircle, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { SITE_CONFIG, getTelHref, getWhatsAppHref, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
+import { ChevronLeft, Phone, ShieldCheck } from 'lucide-react';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { ContactForm } from '../components/ContactForm';
 import { ServiceCard } from '../components/ServiceCard';
 
@@ -12,21 +13,25 @@ interface ServicesPageProps {
   onNavigate: (path: string) => void;
 }
 
-export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
-  const [selectedServiceId, setSelectedServiceId] = useState<string>('furniture-moving');
+/** تعيين صورة مناسبة لكل خدمة بحسب ترتيب الخدمات في ملف الإعدادات */
+const serviceCardImages = [
+  heroImage, // ونيت نقل عفش وأثاث
+  packingImage, // ونيت نقل أغراض وأجهزة كهربائية
+  heroImage, // دينا نقل عفش وشاحنات مغلقة
+  assemblyImage, // فك وتركيب الأثاث والمطابخ
+  packingImage, // تغليف العفش
+  undefined, // نقل بضائع ومكاتب وتخزين
+];
 
-  const hasPhone = SITE_CONFIG.contact.phone && !SITE_CONFIG.contact.phone.includes('0000000');
-  const telHref = hasPhone ? `tel:${SITE_CONFIG.contact.phone}` : '#contact';
-  const whatsappHref = `https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-    'السلام عليكم، أود الاستفسار عن باقات وخدمات نقل الأثاث في الرياض.'
-  )}`;
+export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
+  const [selectedServiceId, setSelectedServiceId] = useState<string>(SITE_CONFIG.services[0].id);
+
+  const telHref = getTelHref();
+  const whatsappHref = getWhatsAppHref('السلام عليكم، أود الاستفسار عن خدمات ونيت نقل العفش بالرياض.');
 
   const handleSelectService = (serviceId: string) => {
     setSelectedServiceId(serviceId);
-    const formElement = document.getElementById('services-quote-form');
-    if (formElement) {
-      formElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('services-quote-form')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -47,35 +52,53 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         {/* Section Header */}
         <div className="max-w-3xl space-y-4 text-right">
           <div className="flex items-center gap-2 text-xs font-bold text-amber-700">
-            <span>خدمات نقل الأثاث والعفش بالرياض</span>
+            <span>خدمات ونيت ودينا نقل العفش بالرياض</span>
             <span aria-hidden="true">·</span>
-            <span>شركة الثقة</span>
+            <span>نقل الأثاث والأغراض والأجهزة والبضائع</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-            خدمات نقل الأثاث والعفش بالرياض | شركة الثقة
+            خدمات ونيت نقل عفش بالرياض | نقل آمن مع الفك والتغليف
           </h1>
           <p className="text-slate-600 text-base leading-relaxed">
-            نوفر مجموعة متكاملة من الخدمات المصممة لتلبي احتياجات الأفراد والشركات: فك وتركيب الأثاث، التغليف والتعبئة، نقل الأثاث والأغراض (ونيت وشاحنات مجهزة)، نقل مكاتب الشركات، وتخزين الأثاث بمستودعات آمنة. استعرض خدماتنا المفصلة أدناه:
+            نوفر مجموعة متكاملة من الخدمات المصممة لتلبي احتياجات الأفراد والشركات داخل الرياض: ونيت نقل العفش والأثاث،
+            نقل الأغراض والأجهزة الكهربائية، دينا مغلقة ومبطنة للمنازل الكبيرة، فك وتركيب الأثاث والمطابخ، تغليف وقائي
+            متعدد الطبقات، ونقل البضائع والمكاتب مع التخزين. اختر خدمتك واحجز مباشرة على الواتساب أو عبر الاتصال.
           </p>
+
+          {/* أزرار التحويل السريعة */}
+          <div className="flex flex-wrap gap-3 pt-2">
+            <a
+              href={telHref}
+              onClick={() => trackPhoneCallClick('services_header')}
+              className="flex items-center gap-2 px-5 py-3 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-colors"
+            >
+              <Phone className="w-4 h-4 text-amber-400" />
+              <span>اتصل الآن</span>
+              <span dir="ltr" className="font-black">{SITE_CONFIG.contact.phoneDisplay}</span>
+            </a>
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackWhatsAppClick('services_header')}
+              className="flex items-center gap-2 px-5 py-3 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-sm transition-colors"
+            >
+              <WhatsAppIcon className="w-4 h-4" />
+              <span>اطلب تسعيرة على واتساب</span>
+            </a>
+          </div>
         </div>
 
-        {/* Services Grid with Real Generated Images */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {SITE_CONFIG.services.map((service, index) => {
-            let cardImage: string | undefined = undefined;
-            if (index === 0) cardImage = heroImage;
-            if (index === 1) cardImage = assemblyImage;
-            if (index === 2) cardImage = packingImage;
-
-            return (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                imageSrc={cardImage}
-                onSelectService={handleSelectService}
-              />
-            );
-          })}
+          {SITE_CONFIG.services.map((service, index) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              imageSrc={serviceCardImages[index]}
+              onSelectService={handleSelectService}
+            />
+          ))}
         </div>
 
         {/* تفاصيل تجهيز العفش قبل وصول السيارة */}
@@ -85,27 +108,30 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
             <span>نصائح ذهبية ليوم نقل منظم</span>
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900">
-            ما الذي يحتاج العميل إلى توضيحه أو تجهيزه قبل وصول الفريق؟
+            ما الذي يحتاج العميل إلى تجهيزه قبل وصول ونيت النقل؟
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-700 pt-2">
             <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80 space-y-2">
               <span className="font-bold text-slate-900 text-sm block">1. فرز المتعلقات الثمينة</span>
               <p className="leading-relaxed">
-                يُنصح بوضع المجوهرات، المبالغ النقدية، بطاقات الهوية، وعقود الملكية في حقيبة شخصية خاصة ونقلها بمعرفتكم تفادياً لاختلاطها مع كراتين النقل العامة.
+                ضع المجوهرات والمبالغ النقدية وبطاقات الهوية وعقود الملكية في حقيبة شخصية وانقلها بنفسك، تفادياً
+                لاختلاطها مع كراتين النقل العامة.
               </p>
             </div>
 
             <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80 space-y-2">
-              <span className="font-bold text-slate-900 text-sm block">2. إخلاء وتجهيز الأجهزة</span>
+              <span className="font-bold text-slate-900 text-sm block">2. تجهيز الأجهزة الكهربائية</span>
               <p className="leading-relaxed">
-                تفريغ الثلاجة والفريزر وفصل الكهرباء عنها قبل موعد النقل بساعات، وتصريف مياه الغسالات، وجمع ملحقات وأسلاك التلفزيونات في أكياس مخصصة.
+                فرّغ الثلاجة والفريزر وافصل الكهرباء عنهما قبل الموعد بساعتين، وصرّف مياه الغسالة، واجمع أسلاك
+                الشاشات وأجهزة التلفزيون في أكياس مخصصة.
               </p>
             </div>
 
             <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/80 space-y-2">
               <span className="font-bold text-slate-900 text-sm block">3. التنسيق مع إدارة المبنى</span>
               <p className="leading-relaxed">
-                التأكد من جاهزية المصعد وتأمينه، وإبلاغ حارس أو إدارة العمارة لتسهيل وقوف شاحنة النقل في موقع قريب من المدخل لتسريع التحميل والتنزيل.
+                تأكد من جاهزية المصعد وحجزه، وأبلغ حارس العمارة لتهيئة موقف قريب للونيت أو الدينا لتسريع التحميل
+                والتنزيل.
               </p>
             </div>
           </div>
@@ -115,7 +141,7 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigate }) => {
         <div className="pt-6" id="services-quote-form">
           <ContactForm
             initialServiceId={selectedServiceId}
-            sourceTitle="طلب تسعيرة وتنسيق موعد نقل أثاث في الرياض"
+            sourceTitle="طلب تسعيرة وتنسيق موعد نقل عفش بالرياض"
           />
         </div>
       </div>

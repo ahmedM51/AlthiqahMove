@@ -1,17 +1,15 @@
 import React from 'react';
-import { SITE_CONFIG, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
-import { ChevronLeft, Star, Quote, Phone, MessageCircle, ArrowLeft, CheckCircle2, ShieldCheck, MapPin } from 'lucide-react';
+import { SITE_CONFIG, getTelHref, getWhatsAppHref, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
+import { ChevronLeft, Star, Quote, Phone, ArrowLeft, CheckCircle2, ShieldCheck, MapPin } from 'lucide-react';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 
 interface TestimonialsPageProps {
   onNavigate: (path: string) => void;
 }
 
 export const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onNavigate }) => {
-  const hasPhone = SITE_CONFIG.contact.phone && !SITE_CONFIG.contact.phone.includes('0000000');
-  const telHref = hasPhone ? `tel:${SITE_CONFIG.contact.phone}` : '#contact';
-  const whatsappHref = `https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-    'السلام عليكم، اطلعت على آراء العملاء لشركة الثقة وأود حجز خدمة نقل أثاث بالرياض.'
-  )}`;
+  const telHref = getTelHref();
+  const whatsappHref = getWhatsAppHref('السلام عليكم، اطلعت على آراء عملاء ونيت نقل العفش وأود حجز خدمة نقل بالرياض.');
 
   return (
     <div className="py-10 bg-slate-50 min-h-screen">
@@ -36,10 +34,11 @@ export const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onNavigate }
             <span>أحياء مدينة الرياض</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-            آراء وتجارب عملاء شركة الثقة لنقل العفش بالرياض
+            آراء وتجارب عملاء ونيت نقل العفش بالرياض
           </h1>
           <p className="text-slate-600 text-base leading-relaxed">
-            سعادة ورضا عملائنا هم سر نجاحنا واستمراريتنا. نستعرض هنا جانباً من تجارب عملائنا الكرام بعد إتمام عمليات نقل منازلهم ومكاتبهم بأمان تام في مختلف أحياء العاصمة.
+            رضا عملائنا هو أساس استمرارنا. نستعرض هنا جانباً من تجارب عملائنا الكرام بعد إتمام عمليات نقل منازلهم
+            ومكاتبهم وأجهزتهم بأمان في مختلف أحياء العاصمة.
           </p>
         </div>
 
@@ -127,7 +126,7 @@ export const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onNavigate }
         <div className="bg-slate-900 text-white rounded-2xl p-8 sm:p-12 text-center space-y-6">
           <div className="max-w-2xl mx-auto space-y-3">
             <h2 className="text-2xl sm:text-3xl font-black">
-              انضم إلى مئات العملاء الراضين عن خدمات شركة الثقة بالرياض
+              انضم إلى مئات العملاء الراضين عن خدمات ونيت نقل العفش بالرياض
             </h2>
             <p className="text-slate-300 text-sm">
               اتصل الآن أو راسلنا عبر واتساب للحصول على استشارة مجانية وعرض سعر فوري مخصص لمنزلك.
@@ -149,9 +148,9 @@ export const TestimonialsPage: React.FC<TestimonialsPageProps> = ({ onNavigate }
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackWhatsAppClick('testimonials_cta')}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-sm transition-all"
             >
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>مراسلة واتساب فورية</span>
             </a>
 

@@ -1,17 +1,15 @@
 import React from 'react';
-import { SITE_CONFIG, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
+import { SITE_CONFIG, getTelHref, getWhatsAppHref, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
 import {
   ChevronLeft,
   MapPin,
   ShieldCheck,
-  Truck,
   Wrench,
-  Clock,
   Phone,
-  MessageCircle,
   ArrowLeft,
   CheckCircle2,
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import heroImage from '../assets/images/hero_moving_truck_riyadh_1791883533123.jpg';
 
 interface AboutPageProps {
@@ -19,11 +17,8 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
-  const hasPhone = SITE_CONFIG.contact.phone && !SITE_CONFIG.contact.phone.includes('0000000');
-  const telHref = hasPhone ? `tel:${SITE_CONFIG.contact.phone}` : '#contact';
-  const whatsappHref = `https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-    'السلام عليكم، أود الاستفسار عن نطاق خدماتكم لشركة الونيت الذكي للنقل بالرياض.'
-  )}`;
+  const telHref = getTelHref();
+  const whatsappHref = getWhatsAppHref('السلام عليكم، أود الاستفسار عن نطاق خدمات ونيت نقل العفش بالرياض.');
 
   return (
     <div className="py-10 bg-slate-50 min-h-screen">
@@ -43,15 +38,18 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         {/* Header Section */}
         <div className="max-w-3xl space-y-4 text-right">
           <div className="flex items-center gap-2 text-xs font-bold text-amber-700">
-            <span>عن شركة الثقة لنقل العفش</span>
+            <span>عن ونيت نقل عفش بالرياض</span>
             <span aria-hidden="true">·</span>
-            <span>الخبرة والأمان في نقل العفش بالرياض</span>
+            <span>خبرة وسرعة وأمان في نقل الأثاث</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-            عن شركة الثقة | الخبرة والأمان في نقل العفش بالرياض
+            من نحن | ونيت نقل عفش بالرياض - خدمة سريعة وآمنة
           </h1>
           <p className="text-slate-600 text-base leading-relaxed">
-            تعتبر <strong>شركة الثقة</strong> من الشركات الرائدة في مجال نقل الأثاث والممتلكات داخل وخارج مدينة الرياض. نعتمد على فرق عمل مدرّبة بكفاءة عالية لتعامل آمن مع كافة أنواع الأثاث والمعدات والأجهزة الكهربائية. هدفنا الأساسي هو تقديم تجربة نقل مريحة وسلسة للعميل من خلال استخدام أفضل مواد التغليف وتوفير شاحنات وسيارات ونيت بمقاسات مختلفة لتلبية كافة الاحتياجات بأعلى معايير الجودة وأنسب الأسعار.
+            <strong>ونيت نقل عفش بالرياض</strong> خدمة متخصصة في نقل الأثاث والعفش والأغراض والأجهزة الكهربائية والبضائع
+            داخل مدينة الرياض. نعتمد على فرق تحميل وفنيين مدرّبين للتعامل الآمن مع كافة أنواع الأثاث، ونوفّر ونيتات
+            ودينات بأحجام مختلفة لتلبية حجم النقل بأعلى معايير الجودة وأنسب الأسعار. هدفنا أن تصلك سيارتنا بسرعة، وأن
+            تصل قطعك سليمة، وأن تعرف السعر النهائي قبل التحرك.
           </p>
         </div>
 
@@ -59,7 +57,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         <div className="rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative aspect-[21/9] bg-slate-900">
           <img
             src={heroImage}
-            alt="سيارات وفريق الونيت الذكي لنقل العفش في الرياض"
+            alt="ونيت نقل عفش وفريق تحميل في الرياض"
             className="w-full h-full object-cover opacity-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
@@ -146,9 +144,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackWhatsAppClick('about_cta')}
-              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition-all"
+              className="flex items-center gap-2 px-6 py-3 rounded-lg bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-sm transition-all"
             >
-              <MessageCircle className="w-4 h-4" />
+              <WhatsAppIcon className="w-4 h-4" />
               <span>محادثة واتساب مباشرة</span>
             </a>
 

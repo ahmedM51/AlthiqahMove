@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle2, AlertCircle, MessageCircle, ArrowRight } from 'lucide-react';
+import { Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon';
 import { SITE_CONFIG, trackLeadFormSubmitted, trackWhatsAppClick } from '../lib/site-config';
 
 interface ContactFormProps {
@@ -12,7 +13,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ initialServiceId, sour
     fullName: '',
     phone: '',
     email: '',
-    serviceType: initialServiceId || 'furniture-moving',
+    serviceType: initialServiceId || SITE_CONFIG.services[0].id,
     fromDistrict: '',
     toDistrict: '',
     floorCount: 'طابق أرضي / مصعد متوفر',
@@ -132,9 +133,9 @@ ${formData.notes ? `- ملاحظات إضافية: ${formData.notes}` : ''}`;
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => trackWhatsAppClick('form_success_button')}
-            className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm transition-colors shadow-sm"
+            className="inline-flex items-center justify-center gap-2 w-full py-3 px-4 bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold rounded-lg text-sm transition-colors shadow-sm"
           >
-            <MessageCircle className="w-4 h-4" />
+            <WhatsAppIcon className="w-4 h-4" />
             <span>متابعة تفاصيل الطلب فوراً عبر واتساب</span>
           </a>
           <button
@@ -144,7 +145,7 @@ ${formData.notes ? `- ملاحظات إضافية: ${formData.notes}` : ''}`;
                 fullName: '',
                 phone: '',
                 email: '',
-                serviceType: 'furniture-moving',
+                serviceType: SITE_CONFIG.services[0].id,
                 fromDistrict: '',
                 toDistrict: '',
                 floorCount: 'طابق أرضي / مصعد متوفر',

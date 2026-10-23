@@ -1,6 +1,7 @@
 import React from 'react';
-import { SITE_CONFIG, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
-import { ChevronLeft, Phone, MessageCircle, Mail, MapPin, Clock, ShieldAlert } from 'lucide-react';
+import { SITE_CONFIG, getTelHref, getWhatsAppHref, trackPhoneCallClick, trackWhatsAppClick } from '../lib/site-config';
+import { ChevronLeft, Phone, Mail, MapPin, Clock, ShieldAlert } from 'lucide-react';
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
 import { ContactForm } from '../components/ContactForm';
 
 interface ContactPageProps {
@@ -8,11 +9,8 @@ interface ContactPageProps {
 }
 
 export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
-  const hasPhone = SITE_CONFIG.contact.phone && !SITE_CONFIG.contact.phone.includes('0000000');
-  const telHref = hasPhone ? `tel:${SITE_CONFIG.contact.phone}` : '#contact';
-  const whatsappHref = `https://wa.me/${SITE_CONFIG.contact.whatsapp}?text=${encodeURIComponent(
-    'السلام عليكم ورحمة الله، أود الاستفسار عن خدمة نقل أثاث في الرياض.'
-  )}`;
+  const telHref = getTelHref();
+  const whatsappHref = getWhatsAppHref('السلام عليكم، أود حجز ونيت نقل عفش بالرياض والاستفسار عن السعر.');
 
   return (
     <div className="py-10 bg-slate-50 min-h-screen">
@@ -32,15 +30,15 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
         {/* Section Header */}
         <div className="max-w-3xl space-y-4 text-right">
           <div className="flex items-center gap-2 text-xs font-bold text-amber-700">
-            <span>تواصل مع شركة الثقة لنقل الأثاث</span>
+            <span>تواصل مع ونيت نقل عفش بالرياض</span>
             <span aria-hidden="true">·</span>
             <span>استجابة سريعة وتنسيق مباشر طوال أيام الأسبوع</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-            تواصل مع شركة الثقة لنقل الأثاث بالرياض
+            اتصل بنا | ونيت نقل عفش بالرياض
           </h1>
           <p className="text-slate-600 text-base leading-relaxed">
-            هل تخطط للانتقال أو نقل أغراضك؟ نحن في خدمتك طوال أيام الأسبوع من الساعة <strong>06:00 صباحاً حتى 12:00 منتصف الليل</strong>. المملكة العربية السعودية - الرياض. للاتصال والاستفسار أو المراسلة عبر واتساب: تواصل معنا الآن للحصول على أفضل العروض والخصومات.
+            هل تخطط للانتقال أو نقل أغراضك؟ نحن في خدمتك طوال أيام الأسبوع من الساعة <strong>06:00 صباحاً حتى 12:00 منتصف الليل</strong>، الرياض - المملكة العربية السعودية. أسرع طريقة هي الاتصال المباشر أو مراسلتنا على الواتساب وأخبرنا بحي الانطلاق وحي الوصول وعدد الغرف لنرسل لك السعر ووقت وصول السيارة فوراً.
           </p>
         </div>
 
@@ -78,8 +76,8 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                   onClick={() => trackWhatsAppClick('contact_page_block')}
                   className="flex items-start gap-3 p-3.5 rounded-lg bg-emerald-50/60 hover:bg-emerald-50 transition-colors border border-emerald-200/70"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
-                    <MessageCircle className="w-5 h-5" />
+                  <div className="w-10 h-10 rounded-lg bg-[#25D366]/15 text-[#128C7E] flex items-center justify-center shrink-0 mt-0.5">
+                    <WhatsAppIcon className="w-5 h-5" />
                   </div>
                   <div>
                     <span className="text-xs text-emerald-800 font-medium block">تطبيق واتساب</span>
